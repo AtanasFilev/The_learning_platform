@@ -16,3 +16,9 @@ class Comment(models.Model):
     comment_date = models.DateTimeField(default=timezone.now)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
     parent_post = models.ForeignKey('Post', on_delete=models.CASCADE)
+
+class Supoort_ticket(models.Model):
+    issue = models.TextField(default="no title")
+    description = models.TextField(default="no body")
+    creation_date = models.DateTimeField(default=timezone.now)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)

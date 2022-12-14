@@ -81,6 +81,8 @@ class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         post= self.get_object()
+        if self.request.user.is_staff:
+            return True
         return self.request.user == post.creator
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -90,6 +92,8 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         post = self.get_object()
+        if self.request.user.is_staff:
+            return True
         return self.request.user == post.creator
 
 class CommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -103,6 +107,8 @@ class CommentEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def test_func(self):
         comment = self.get_object()
+        if self.request.user.is_staff:
+            return True
         return self.request.user == comment.creator
 
 
@@ -116,4 +122,9 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         comment = self.get_object()
+        if self.request.user.is_staff:
+            return True
         return self.request.user == comment.creator
+
+class SupportListView(LoginRequiredMixin, View):
+    pass

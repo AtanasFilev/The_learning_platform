@@ -13,7 +13,7 @@
         <div class="col-md-5 col-sm-12">
             <p>
                 <strong>{{ post.creator }}</strong> {{ post.creation_date}}
-                {% if request.user == post.creator %}
+                {% if request.user == post.creator or request.user.is_staff %}
                 <a href="{% url 'post-edit' post.pk %}" style="color: #333;"><i class="far fa-edit"></i></a>
                 <a href="{% url 'post-delete' post.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
                 {% endif %}
@@ -31,12 +31,11 @@
             {% elif not post.document %}
 
             {% else %}
-                <p>Sorry, we cannot preview this type of file. Download it instead!</p>
-                <a class="btn btn-info" href="{% url 'download' path=post.document.name %}" target="_blank">Try to open with browser instead?</a>
+                <a class="btn btn-info" href="{% url 'download' path=post.document.name %}" target="_blank">Open post file?</a>
 
 {% endif %}
         </div>
-         {% if request.user != post.creator %}
+         {% if request.user != post.creator or request_user.is_staff %}
 
         <div class="row justify-content-center mt-3">
             <div class="col-md-5 col-sm-12">
@@ -61,7 +60,7 @@
     <div class="row justify-content-center mt-3 mr-5">
         <div class="col-md-5 col-sm-11  border-bottom position-relative mt-3">
             <p><strong>{{ comment.creator }}</strong> {{ comment.comment_date }}
-                {% if request.user == comment.creator %}
+                {% if request.user == comment.creator or request.user.is_staff %}
                 <a href="{% url 'comment-edit' post.pk comment.pk %}" style="color: #333;"><i class="far fa-edit"></i></a>
                 <a href="{% url 'comment-delete' post.pk comment.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
             {% endif %}</p>
