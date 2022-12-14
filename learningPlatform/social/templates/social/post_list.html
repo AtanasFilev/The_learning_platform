@@ -1,0 +1,43 @@
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h5>Add a Post!</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="form-group">
+                    <button class="btn btn-success mt-3 mb-3 float-end" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+    {% if post_list %}
+         {% for post in post_list %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                    <p><strong>{{ post.creator }}</strong> {{ post.creation_date }}</p>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.body }}</p>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center mt-5">
+
+                <h2>No posts here. Be the first!</h2>
+
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}

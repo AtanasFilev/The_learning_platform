@@ -1,0 +1,83 @@
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% load tz %}
+
+
+{% block content %}
+    <div class="row justify-content-around mt-5">
+        <div class="col-md-5 col-sm-6 ">
+            <a class="btn btn-info" href="{% url 'post-list' %}">Back to feed</a>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12">
+            <p>
+                <strong>{{ post.creator }}</strong> {{ post.creation_date}}
+                {% if request.user == post.creator %}
+                <a href="{% url 'post-edit' post.pk %}" style="color: #333;"><i class="far fa-edit"></i></a>
+                <a href="{% url 'post-delete' post.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
+                {% endif %}
+            </p>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.body }}</p>
+            {% if post.document.filetype == 'text' %}
+                <p>Here is a preview of the uploaded file:</p>
+                    <pre>
+                        {{ post.document.read }}
+                    </pre>
+            {% elif post.document.filetype == 'image' %}
+                <p>Here is a preview of the uploaded image:</p>
+                <img src="{{ post.document.url }}" alt="My Image Preview" />
+            {% elif not post.document %}
+
+            {% else %}
+                <p>Sorry, we cannot preview this type of file. Download it instead!</p>
+                <a class="btn btn-info" href="{% url 'download' path=post.document.name %}" target="_blank">Try to open with browser instead?</a>
+
+{% endif %}
+        </div>
+         {% if request.user != post.creator %}
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-5 col-sm-12">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.field_errors }}
+                    {{ form | crispy }}
+                    <div class="form-group">
+                        <button class="btn btn-primary mt-3 mb-3 float-end" type="submit">Comment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+    <div class="row justify-content-center mt-3 mr-5">
+        <div class="col-md-5 col-sm-12 border-bottom position-relative mt-5">
+            <h1 class=""><strong>Comments</strong></h1>
+        </div>
+    </div>
+    {% if comments %}
+        {% for comment in comments %}
+    <div class="row justify-content-center mt-3 mr-5">
+        <div class="col-md-5 col-sm-11  border-bottom position-relative mt-3">
+            <p><strong>{{ comment.creator }}</strong> {{ comment.comment_date }}
+                {% if request.user == comment.creator %}
+                <a href="{% url 'comment-edit' post.pk comment.pk %}" style="color: #333;"><i class="far fa-edit"></i></a>
+                <a href="{% url 'comment-delete' post.pk comment.pk %}" style="color: #333;"><i class="fas fa-trash"></i></a>
+            {% endif %}</p>
+
+                <p>{{ comment.comment }}</p>
+            <h2><strong>Rating: </strong>{{ comment.rating }} / 10</h2>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <div class="row justify-content-center mt-3 mr-5">
+            <div class="col-md-2 col-sm-11  position-relative mt-5">
+                <h2>No comments here!</h2>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+
+{% endblock content %}
