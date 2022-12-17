@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, Supoort_ticket
+from .models import Post, Comment, Support_ticket, Response
 
 class PostForm(forms.ModelForm):
     title = forms.CharField(
@@ -44,5 +44,16 @@ class SupportForm(forms.ModelForm):
             'placeholder': 'Describe in detail'
         }))
     class Meta:
-        model = Supoort_ticket
-        fields= ["issue", "description"]
+        model = Support_ticket
+        fields = ["issue", "description"]
+
+class ResponseForm(forms.ModelForm):
+    response = forms.CharField(
+        label='',
+        widget=forms.Textarea(attrs={
+            'rows': '1',
+            'placeholder': 'Add something!'
+        }))
+    class Meta:
+        model = Response
+        fields = ["response"]

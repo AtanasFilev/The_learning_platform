@@ -1,0 +1,65 @@
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+{% load tz %}
+
+
+{% block content %}
+    <div class="row justify-content-around mt-5">
+        <div class="col-md-5 col-sm-6 ">
+            <a class="btn btn-info" href="{% url 'post-list' %}">Back to feed</a>
+        </div>
+    </div>
+    {% if request.user == comment.creator or request.user.is_staff %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12">
+            <p>
+                <strong>{{ post.creator }}</strong> {{ post.creation_date}}
+                {% if request.user.is_staff %}
+                <a href="{% url 'support-delete' post.pk %}" style="color: #333;">Close ticket</a>
+                {% endif %}
+            </p>
+            <h3>{{ post.issue }}</h3>
+            <p>{{ post.description }}</p>
+        </div>
+    {% if comments %}
+        {% for comment in comments %}
+    <div class="row justify-content-center mt-3 mr-5">
+        <div class="col-md-5 col-sm-11  position-relative mt-3">
+            <p><strong>{{ comment.creator }}</strong> {{ comment.comment_date }}
+                <p>{{ comment.response }}</p>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+        <div class="row justify-content-center mt-3 mr-5">
+            <div class="col-md-2 col-sm-11  position-relative mt-5">
+                <h2>No responses yet!</h2>
+            </div>
+        </div>
+    {% endif %}
+    {% if request.user == post.creator or request.user.is_staff %}
+
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-5 col-sm-12">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.field_errors }}
+                    {{ form | crispy }}
+                    <div class="form-group">
+                        <button class="btn btn-primary mt-3 mb-3 float-end" type="submit">Respond</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+        {% else %}
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-5 col-sm-12">
+                <h1>Thread is private</h1>
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock content %}

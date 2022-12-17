@@ -35,7 +35,7 @@
 
 {% endif %}
         </div>
-         {% if request.user != post.creator or request_user.is_staff %}
+         {% if request.user != post.creator or request.user.is_staff %}
 
         <div class="row justify-content-center mt-3">
             <div class="col-md-5 col-sm-12">

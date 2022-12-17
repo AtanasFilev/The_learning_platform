@@ -1,0 +1,48 @@
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="bg-white">
+  <div class="container py-5">
+    <div class="row h-100 align-items-center py-5">
+      <div class="col-lg-6">
+        <h1 class="display-4">About us</h1>
+        <p class="lead text-muted mb-0">TLP is a social media like place for reviewing community work!</p>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block"><img src="https://img.freepik.com/free-vector/online-lecturing-distance-learning-opportunities-self-education-internet-courses-e-learning-technologies_335657-3279.jpg?w=826&t=st=1671290298~exp=1671290898~hmac=e9f8129e76f2181e21c27f8a7db1903eca62d05b3717c75e431e8ee5eba9d5eb" alt="" class="img-fluid"></div>
+    </div>
+  </div>
+        {% if user.is_authenticated %}
+</div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h2>Write us a review!</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="form-group">
+                    <button class="btn btn-success mt-3 mb-3 float-end" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+    {% endif %}
+    {% if reviews %}
+         {% for post in reviews %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                    <p><strong>{{ post.creator }}</strong></p>
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.body }}</p>
+                    <h2><strong>Rating: </strong>{{ post.rating }} / 5</h2>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center mt-5">
+                <h2>No reviews yet!</h2>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}

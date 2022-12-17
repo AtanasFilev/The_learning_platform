@@ -1,0 +1,44 @@
+{% extends "landing/base.html" %}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <h5>Need help? Write a support ticket!</h5>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-5 col-sm-12 border-bottom">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form | crispy }}
+                <div class="form-group">
+                    <button class="btn btn-success mt-3 mb-3 float-end" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="container">
+    {% if support_ticket %}
+         {% for post in support_ticket %}
+             {% if request.user == comment.creator or request.user.is_staff %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-5 col-sm-12 border-bottom position-relative">
+                    <p><strong>{{ post.creator }}</strong> {{ post.creation_date }}</p>
+                    <h3>{{ post.issue }}</h3>
+                    <p>{{ post.description }}</p>
+                    <a href="{% url 'support-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+            </div>
+             {% endif %}
+        {% endfor %}
+    {% else %}
+        <div class="d-flex align-items-center justify-content-center mt-5">
+                <h2>No support tickets here!</h2>
+        </div>
+    {% endif %}
+    </div>
+{% endblock content %}

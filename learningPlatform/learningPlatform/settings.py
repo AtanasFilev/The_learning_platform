@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
 ]
 SITE_ID = 1
 MIDDLEWARE = [

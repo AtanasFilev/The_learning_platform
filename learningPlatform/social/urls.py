@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Post_List, PostDetailView, PostEditView, PostDeleteView, CommentDeleteView, CommentEditView
+from .views import Post_List, PostDetailView, PostEditView, PostDeleteView, CommentDeleteView, CommentEditView, SupportListView, SupportDetailView, SupportDeleteView
 from django.views.static import serve
 from django.conf import settings
 
@@ -12,4 +12,7 @@ urlpatterns =[
     path("post/<int:post_pk>/comment/edit/<int:pk>", CommentEditView.as_view(), name="comment-edit"),
     path("post/<int:post_pk>/comment/delete/<int:pk>", CommentDeleteView.as_view(), name="comment-delete"),
     path('download/<path:path>', serve, {'document_root': str(settings.MEDIA_ROOT)}, name="download"),
+    path("support/", SupportListView.as_view(), name="support"),
+    path("support/<int:pk>", SupportDetailView.as_view(), name="support-detail"),
+    path("support/<int:pk>/delete", SupportDeleteView.as_view(), name="support-delete"),
 ]
