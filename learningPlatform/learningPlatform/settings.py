@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-e&o3e1$(n#u7qu3xx%9b6v+juyp)l69smd445)g!lp6d0d9xca
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.4','127.0.0.1']
 
 
 # Application definition
@@ -90,11 +90,12 @@ WSGI_APPLICATION = 'learningPlatform.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   }
 }
+
 
 
 # Password validation
@@ -138,7 +139,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 LOGIN_REDIRECT_URL = "post-list"
 ACCOUNT_EMAIL_REQUIRED = True
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-
+FILE_UPLOAD_MAX_FILE_SIZE = 8388608
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field

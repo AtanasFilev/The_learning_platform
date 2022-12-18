@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator
+from django.conf import settings
 
 class Post(models.Model):
     title = models.TextField(default="no title")

@@ -1,12 +1,12 @@
 {% extends "landing/base.html" %}
 {% load crispy_forms_tags %}
-{% load tz %}
+
 
 
 {% block content %}
     <div class="row justify-content-around mt-5">
         <div class="col-md-5 col-sm-6 ">
-            <a class="btn btn-info" href="{% url 'post-list' %}">Back to feed</a>
+            <a class="btn btn-info" href="{% url 'support' %}">Back to support</a>
         </div>
     </div>
     {% if request.user == comment.creator or request.user.is_staff %}
